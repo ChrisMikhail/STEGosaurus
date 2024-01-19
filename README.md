@@ -1,2 +1,2 @@
-# Steganography-pal
+# STEGosaurus
 Playing around with LSB Steganography. 
