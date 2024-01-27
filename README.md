@@ -1,6 +1,6 @@
 # STEGosaurus - LSB Steganography Tool
 
-To access Start-Up Instructions and the Usage Guide, go [here](https://github.com/ChrisMikhail/STEGosaurus?tab=readme-ov-file#stegosaurus).
+To access Start-Up Instructions and the Usage Guide, go [here](https://github.com/ChrisMikhail/STEGosaurus?tab=readme-ov-file#start-up-and-usage-guide).
 
 # What is LSB Steganography? 
 finish this.
