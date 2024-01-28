@@ -1,5 +1,5 @@
 from encryption import generate_key, encrypt, decrypt
-from image import get_image_object, convert_to_binary, convert_to_bytes
+from image import get_image_object, convert_to_binary, convert_to_bytes, change_image
 
 
 def introduce_program():
@@ -17,3 +17,4 @@ if __name__ == '__main__':
     binary_representation = convert_to_binary(ciphertext.hex())
     ciphertext = convert_to_bytes(binary_representation)
     decrypt(nonce, ciphertext, tag, key)
+    change_image(path_to_image, binary_representation)

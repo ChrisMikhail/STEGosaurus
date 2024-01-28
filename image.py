@@ -24,3 +24,18 @@ def convert_to_bytes(binary_representation):
     bytes_array = np.packbits(binary_representation)
     bytes_object = bytes(bytes_array)
     return bytes_object
+
+
+def change_image(path, binary_representation):
+    with Image.open(path) as im:
+        pixels = im.load()
+        w, h = im.size
+
+        for x in range(w):
+            for y in range(h):
+                current_colour = pixels[x, y]
+                if x >= len(binary_representation):
+                    break
+                new_colour = (current_colour[0], current_colour[1] & 0b11111110 | binary_representation[x], current_colour[2])
+                pixels[x, y] = new_colour
+    im.save("static/suspicious_steg.jpg")
