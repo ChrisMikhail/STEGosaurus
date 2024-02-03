@@ -3,6 +3,21 @@ from image import get_image_object, convert_to_binary, convert_to_bytes, change_
 from open_yaml import read_yaml_file
 
 
+def hello_word():
+    input(
+        "Hello, there! The original image is in the static folder and is named steg and the secret message is in "
+        "sus_steg. Press any key to see what the message! ")
+    example_secrets = (read_yaml_file())["example"]
+    example_key = eval(example_secrets["key"].encode('utf-8'))
+    example_nonce = eval(example_secrets["nonce"].encode('utf-8'))
+    example_tag = eval(example_secrets["tag"].encode('utf-8'))
+    example_length = int(example_secrets["length"])
+    example_extracted_binary = extract_last_bit(example_length)
+    example_decrypted_ciphertext = convert_to_bytes(example_extracted_binary)
+    example_message = decrypt(example_nonce, example_decrypted_ciphertext, example_tag, example_key)
+    print(f"The image contained the message {example_message}")
+
+
 def introduce_program():
     """Introduces program and gets path to image and message to encrypt from user."""
     image_name = input("Welcome to STEGosaurus! Enter the name of your image in the static folder to get started ("
@@ -14,6 +29,7 @@ def introduce_program():
 
 
 if __name__ == '__main__':
+    hello_word()
     # Unpack basic data
     name_of_image, new_image_name, message = introduce_program()
     path_to_image = f"static/{name_of_image}.png"  # Original image path
@@ -29,7 +45,7 @@ if __name__ == '__main__':
     change_image(path_to_image, binary_representation, new_image_name)
 
     # Decrypting the image
-    decrypted_binary = extract_last_bit(f"static/{new_image_name}.png", len(binary_representation))
+    decrypted_binary = extract_last_bit(len(binary_representation), f"static/{new_image_name}.png")
     decrypted_ciphertext = convert_to_bytes(decrypted_binary)
     message = decrypt(nonce, decrypted_ciphertext, tag, key)
-    print(message)
+    print("Your message was: " + message)
