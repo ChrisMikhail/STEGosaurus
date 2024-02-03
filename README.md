@@ -14,11 +14,15 @@ git clone https://github.com/ChrisMikhail/STEGosaurus.git
 ```
 cd <project_directory>
 ```
-3.1. Activate virtual environment on Windows
+3. Create a virtual environment
+```
+python -m venv venv
+```
+* Activate virtual environment on Windows
 ```
 venv\Scripts\activate
 ```
-3.2. Activate virtual environment for Unix or MacOS
+* Activate virtual environment for Unix/MacOS
 ```
 source venv/bin/activate
 ```
