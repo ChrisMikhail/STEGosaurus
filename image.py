@@ -27,25 +27,26 @@ def convert_to_bytes(binary_representation):
 
 
 def change_image(path, binary_representation, new_image_name):
+    """Replace last bit of green channel with ciphertext as binary data"""
     with Image.open(path) as im:
         pixels = im.load()
         w, h = im.size
-        new = []
         idx = 0
         for x in range(w):
             for y in range(h):
                 current_colour = pixels[x, y]
                 if idx >= len(binary_representation):
                     break
+                    # Replace last bit with binary_representation[idx]
                 current_colour = (
                     current_colour[0], current_colour[1] & 0b11111110 | binary_representation[idx], current_colour[2])
-                new.append(current_colour[1] & 1)
                 pixels[x, y] = current_colour
                 idx += 1
     im.save(f"static/{new_image_name}.png")
 
 
 def extract_last_bit(new_image_path, length):
+    """Extracts last bits of binary data for the green channel of each pixel"""
     binary_data = []
     idx = 0
     with Image.open(new_image_path) as im:
@@ -57,6 +58,7 @@ def extract_last_bit(new_image_path, length):
                 current_colour = pixels[x, y]
                 if idx >= length:
                     break
+                    # Get least significant bit in binary
                 last_bit = current_colour[1] & 1
                 binary_data.append(last_bit)
                 idx += 1
