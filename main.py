@@ -6,7 +6,7 @@ from open_yaml import read_yaml_file
 def hello_word():
     input(
         "Hello, there! The original image is in the static folder and is named steg and the secret message is in "
-        "sus_steg. Press any key to see what the message! ")
+        "sus_steg. Press any key to see what the message!")
     example_secrets = (read_yaml_file())["example"]
     example_key = eval(example_secrets["key"].encode('utf-8'))
     example_nonce = eval(example_secrets["nonce"].encode('utf-8'))
@@ -15,7 +15,7 @@ def hello_word():
     example_extracted_binary = extract_last_bit(example_length)
     example_decrypted_ciphertext = convert_to_bytes(example_extracted_binary)
     example_message = decrypt(example_nonce, example_decrypted_ciphertext, example_tag, example_key)
-    print(f"The image contained the message {example_message}")
+    print(f"The image contained the message {example_message}\n")
 
 
 def introduce_program():
