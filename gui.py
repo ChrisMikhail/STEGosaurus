@@ -1,26 +1,23 @@
 import customtkinter
 from tkinter import filedialog
 
-
+# Default settings
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
 
-def open_input_dialog_event():
-    dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
-    print("CTkInputDialog:", dialog.get_input())
-
-
 def change_appearance_mode_event(new_appearance_mode: str):
+    """Changes appearance"""
     customtkinter.set_appearance_mode(new_appearance_mode)
 
 
 def openfile():
-    print("sidebar_button click")
+    """Opens file explorer"""
     return filedialog.askopenfilename()
 
 
 def change_scaling_event(new_scaling: str):
+    """Changes GUI scale"""
     new_scaling_float = int(new_scaling.replace("%", "")) / 100
     customtkinter.set_widget_scaling(new_scaling_float)
 
@@ -41,6 +38,7 @@ class App(customtkinter.CTk):
         self.grid_rowconfigure((0, 1, 2), weight=1)
 
         def encode_clicked():
+            """Adds extra UI components for the encode section"""
             self.entry = customtkinter.CTkEntry(self, placeholder_text="Message to be encoded")
             self.entry.grid(row=3, column=1, columnspan=2, padx=(20, 0), pady=(20, 20), sticky="nsew")
 
@@ -49,10 +47,11 @@ class App(customtkinter.CTk):
             self.main_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
         def remove_elements():
+            """Removes all extra components for the home page"""
             try:
                 self.entry.destroy()
                 self.main_button_1.destroy()
-            except AttributeError as err:
+            except AttributeError:
                 pass
 
         # create sidebar frame with widgets
