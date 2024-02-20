@@ -49,8 +49,11 @@ class App(customtkinter.CTk):
             self.main_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
         def remove_elements():
-            self.entry.destroy()
-            self.main_button_1.destroy()
+            try:
+                self.entry.destroy()
+                self.main_button_1.destroy()
+            except AttributeError as err:
+                pass
 
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
