@@ -15,6 +15,12 @@ def encrypt(message, key):
     return nonce, ciphertext, tag
 
 
+def write_to_yaml(key, nonce, tag, length, file_path="keys/secrets.yaml"):
+    """Writes key information to a yaml file"""
+    with open(file_path, 'w') as f:
+        f.write(f"secrets:\n\tkey: {key}\n\tnonce: {nonce}\n\ttag: {tag}\n\tlength: {length}")
+
+
 def decrypt(nonce, ciphertext, tag, key):
     """Decrypt the ciphertext"""
     cipher = AES.new(key, AES.MODE_EAX, nonce=nonce)
@@ -23,4 +29,3 @@ def decrypt(nonce, ciphertext, tag, key):
         return plaintext.decode('utf-8')
     except ValueError:
         return None
-    
