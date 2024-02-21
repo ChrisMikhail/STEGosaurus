@@ -60,10 +60,10 @@ class App(customtkinter.CTk):
             #                                                            image=self.large_test_image)
             # self.home_frame_large_image_label.grid(row=2, column=0, padx=20, pady=10)
 
-            self.Home_label = customtkinter.CTkLabel(self.content_frame, text="Home",
+            self.Home_label = customtkinter.CTkLabel(self.content_frame, text="Get Started with Steganography",
                                                      font=customtkinter.CTkFont(size=50, weight="bold"))
             # self.Home_label.grid(row=0, column=0)
-            self.Home_label.place(relx=.45, rely=0)
+            self.Home_label.place(relx=.1, rely=0)
             try:
                 self.entry.destroy()
                 self.main_button_1.destroy()
