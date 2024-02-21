@@ -1,4 +1,4 @@
-from encryption import generate_key, encrypt, decrypt
+from encryption import generate_key, encrypt, decrypt, write_to_yaml
 from image import get_image_object, convert_to_binary, convert_to_bytes, change_image, extract_last_bit
 from open_yaml import read_yaml_file
 
@@ -7,11 +7,7 @@ def hello_word():
     input(
         "Hello, there! The original image is in the static folder and is named steg and the secret message is in "
         "sus_steg. Press any key to see what the message!")
-    example_secrets = (read_yaml_file())["example"]
-    example_key = eval(example_secrets["key"].encode('utf-8'))
-    example_nonce = eval(example_secrets["nonce"].encode('utf-8'))
-    example_tag = eval(example_secrets["tag"].encode('utf-8'))
-    example_length = int(example_secrets["length"])
+    example_key, example_nonce, example_tag, example_length = read_yaml_file()
     example_extracted_binary = extract_last_bit(example_length)
     example_decrypted_ciphertext = convert_to_bytes(example_extracted_binary)
     example_message = decrypt(example_nonce, example_decrypted_ciphertext, example_tag, example_key)
@@ -40,6 +36,8 @@ if __name__ == '__main__':
     key = generate_key()  # Random AES key
     nonce, ciphertext, tag = encrypt(message, key)
     binary_representation = convert_to_binary(ciphertext.hex())  # Binary representation of encrypted bytes data
+    bin_length = len(binary_representation)
+    write_to_yaml(key, nonce, tag, bin_length, f"keys/{new_image_name}_secrets.yaml")
 
     # Changing the image
     change_image(path_to_image, binary_representation, new_image_name)
