@@ -1,5 +1,7 @@
 import customtkinter
 from tkinter import filedialog
+from PIL import Image
+import os
 
 # Default settings
 customtkinter.set_appearance_mode("System")
@@ -32,6 +34,9 @@ class App(customtkinter.CTk):
         self.title("STEGosaurus - LSB Image Steganography Tool")
         self.geometry(f"{1100}x{580}")
 
+        image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
+        self.large_test_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "sus_steg.png")),
+                                                       size=(301, 201))
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure((2, 3), weight=0)
@@ -48,6 +53,17 @@ class App(customtkinter.CTk):
 
         def remove_elements():
             """Removes all extra components for the home page"""
+            self.content_frame = customtkinter.CTkFrame(self, fg_color="transparent")
+            self.content_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+
+            # self.home_frame_large_image_label = customtkinter.CTkLabel(self.content_frame, text="",
+            #                                                            image=self.large_test_image)
+            # self.home_frame_large_image_label.grid(row=2, column=0, padx=20, pady=10)
+
+            self.Home_label = customtkinter.CTkLabel(self.content_frame, text="Home",
+                                                     font=customtkinter.CTkFont(size=50, weight="bold"))
+            # self.Home_label.grid(row=0, column=0)
+            self.Home_label.place(relx=.45, rely=0)
             try:
                 self.entry.destroy()
                 self.main_button_1.destroy()
