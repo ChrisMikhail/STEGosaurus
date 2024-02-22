@@ -18,7 +18,8 @@ def encrypt(message, key):
 def write_to_yaml(key, nonce, tag, length, file_path="keys/secrets.yaml"):
     """Writes key information to a yaml file"""
     with open(file_path, 'w') as f:
-        f.write(f"secrets:\n\tkey: {key}\n\tnonce: {nonce}\n\ttag: {tag}\n\tlength: {length}")
+        f.write(f"secrets:\n  key: {key}\n  nonce: {nonce}\n  tag: {tag}\n  length: {length}")
+
 
 
 def decrypt(nonce, ciphertext, tag, key):

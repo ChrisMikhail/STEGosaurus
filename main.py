@@ -3,12 +3,9 @@ from image import get_image_object, convert_to_binary, convert_to_bytes, change_
 from open_yaml import read_yaml_file
 
 
-def hello_word():
-    input(
-        "Hello, there! The original image is in the static folder and is named steg and the secret message is in "
-        "sus_steg. Press any key to see what the message!")
-    example_key, example_nonce, example_tag, example_length = read_yaml_file()
-    example_extracted_binary = extract_last_bit(example_length)
+def decode_image(path_to_yaml="secrets.yaml", path_to_new="static/sus_steg.png"):
+    example_key, example_nonce, example_tag, example_length = read_yaml_file(path_to_yaml)
+    example_extracted_binary = extract_last_bit(example_length, path_to_new)
     example_decrypted_ciphertext = convert_to_bytes(example_extracted_binary)
     example_message = decrypt(example_nonce, example_decrypted_ciphertext, example_tag, example_key)
     print(f"The image contained the message {example_message}\n")
@@ -25,25 +22,26 @@ def introduce_program():
 
 
 if __name__ == '__main__':
-    hello_word()
+    input(
+        "Hello, there! The original image is in the static folder and is named steg and the secret message is in "
+        "sus_steg. Press any key to see what the message!")
+    decode_image()
     # Unpack basic data
     name_of_image, new_image_name, message = introduce_program()
     path_to_image = f"static/{name_of_image}.png"  # Original image path
     path_to_new_image = f"static/{new_image_name}.png"  # Path for new image
     image_object = get_image_object(path_to_image)  # Generates a PIL image object
+    new_yaml_location = f"keys/{new_image_name}_secrets.yaml"
 
     # Encryption of data
     key = generate_key()  # Random AES key
     nonce, ciphertext, tag = encrypt(message, key)
     binary_representation = convert_to_binary(ciphertext.hex())  # Binary representation of encrypted bytes data
     bin_length = len(binary_representation)
-    write_to_yaml(key, nonce, tag, bin_length, f"keys/{new_image_name}_secrets.yaml")
+    write_to_yaml(key, nonce, tag, bin_length, new_yaml_location)
 
     # Changing the image
     change_image(path_to_image, binary_representation, new_image_name)
 
     # Decrypting the image
-    decrypted_binary = extract_last_bit(len(binary_representation), f"static/{new_image_name}.png")
-    decrypted_ciphertext = convert_to_bytes(decrypted_binary)
-    message = decrypt(nonce, decrypted_ciphertext, tag, key)
-    print("Your message was: " + message)
+    decode_image(new_yaml_location, path_to_new_image)
