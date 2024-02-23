@@ -21,7 +21,6 @@ def write_to_yaml(key, nonce, tag, length, file_path="keys/secrets.yaml"):
         f.write(f"secrets:\n  key: {key}\n  nonce: {nonce}\n  tag: {tag}\n  length: {length}")
 
 
-
 def decrypt(nonce, ciphertext, tag, key):
     """Decrypt the ciphertext"""
     cipher = AES.new(key, AES.MODE_EAX, nonce=nonce)

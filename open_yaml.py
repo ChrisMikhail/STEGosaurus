@@ -1,7 +1,7 @@
 import yaml
 
 
-def read_yaml_file(file_path="secrets.yaml"):
+def read_yaml_file(file_path="keys/secrets.yaml"):
     with open(file_path, 'r') as file:
         yaml_data = yaml.safe_load(file)
         secrets = yaml_data["secrets"]

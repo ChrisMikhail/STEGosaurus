@@ -3,7 +3,8 @@ from image import get_image_object, convert_to_binary, convert_to_bytes, change_
 from open_yaml import read_yaml_file
 
 
-def decode_image(path_to_yaml="secrets.yaml", path_to_new="static/sus_steg.png"):
+def decode_image(path_to_yaml="keys/secrets.yaml", path_to_new="static/sus_steg.png"):
+    """Decodes image given a yaml path and a path to a png"""
     example_key, example_nonce, example_tag, example_length = read_yaml_file(path_to_yaml)
     example_extracted_binary = extract_last_bit(example_length, path_to_new)
     example_decrypted_ciphertext = convert_to_bytes(example_extracted_binary)
