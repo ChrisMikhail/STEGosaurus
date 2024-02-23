@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import filedialog
 from PIL import Image
 import os
-from main import decode_image, encode_image
+from orchestration import decode_image, encode_image
 
 # Default settings
 customtkinter.set_appearance_mode("System")
@@ -214,10 +214,10 @@ class App(customtkinter.CTk):
         # Appearance dropdown
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
         self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
-        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame,
-                                                                       values=["System", "Dark", "Light"],
-                                                                       command=change_appearance_mode_event)
-        self.appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 55))
+        self.appearance_mode_optionmenu = customtkinter.CTkOptionMenu(self.sidebar_frame,
+                                                                      values=["System", "Dark", "Light"],
+                                                                      command=change_appearance_mode_event)
+        self.appearance_mode_optionmenu.grid(row=6, column=0, padx=20, pady=(10, 55))
 
 
 if __name__ == "__main__":
