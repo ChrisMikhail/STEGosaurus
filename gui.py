@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import filedialog
 from PIL import Image
 import os
-from main import decode_image
+from main import decode_image, encode_image
 
 # Default settings
 customtkinter.set_appearance_mode("System")
@@ -15,13 +15,31 @@ def change_appearance_mode_event(new_appearance_mode: str):
     customtkinter.set_appearance_mode(new_appearance_mode)
 
 
-def openfile():
-    """Opens file explorer"""
-    return filedialog.askopenfilename()
-
-
 class App(customtkinter.CTk):
     def __init__(self):
+
+        self.middle_box_frame = None
+        self.main_button_1 = None
+        self.entry = None
+        self.image_file_path = None
+        self.key_file_path = None
+        self.file_name = None
+        self.file_path = None
+
+        def openfile():
+            """Opens file explorer and returns the file path and name"""
+            self.file_path = filedialog.askopenfilename()
+            self.file_name = os.path.basename(self.file_path)
+
+        def submit_encode_clicked():
+            new_file_name = f"sus_{self.file_name}"
+            yaml_name = f"secretsfor_{new_file_name[:-4]}.yaml"
+            message = self.entry.get()
+            downloads_folder = os.path.join(os.path.expanduser("~"), "Downloads")
+            if downloads_folder is not None and self.file_name is not None:
+                path_to_new_image = os.path.join(downloads_folder, new_file_name)
+                path_to_new_yaml = os.path.join(downloads_folder, yaml_name)
+                encode_image(self.file_path, path_to_new_image, message, path_to_new_yaml)
 
         def update_message_label():
             """Updates label text"""
@@ -29,19 +47,56 @@ class App(customtkinter.CTk):
 
             self.message_label.configure(text=f"The image contained the message: {decoded_message}")
 
+        def submit_encode():
+            """Action for the encode submission button"""
+            print("Encoding...")
+
         def encode_clicked():
             """Adds extra UI components for the encode section"""
             if self.title_label.cget("text") != "Encode":
                 self.title_label.configure(text="Encode")
                 self.bottom_frame.grid_forget()
                 self.content_frame.grid_forget()
+
+                # Entry for encoding message
                 self.entry = customtkinter.CTkEntry(self, placeholder_text="Message to be encoded")
                 self.entry.grid(row=2, column=1, padx=(15, 15), sticky="nsew")
 
-                # Submission button
-                self.main_button_1 = customtkinter.CTkButton(master=self, fg_color="transparent", border_width=2,
-                                                             text_color=("gray10", "#DCE4EE"), text="Submit")
+                # Submission button for encoding
+                self.main_button_1 = customtkinter.CTkButton(
+                    master=self,
+                    fg_color="transparent",
+                    border_width=2,
+                    text_color=("gray10", "#DCE4EE"),
+                    text="Submit & Download",
+                    command=submit_encode_clicked
+                )
                 self.main_button_1.grid(row=3, column=1, padx=(15, 15), pady=(5, 15), sticky="nsew")
+
+                # New frame for the box in the middle
+                self.middle_box_frame = customtkinter.CTkFrame(self)
+                self.middle_box_frame.grid(row=1, column=1, padx=(15, 15), pady=(5, 15),
+                                           sticky="nsew")  # Adjusted row placement
+                self.middle_box_frame.columnconfigure(0, weight=1)
+                self.middle_box_frame.rowconfigure(0, weight=1)
+
+                # Button inside the middle box
+                middle_button = customtkinter.CTkButton(
+                    master=self.middle_box_frame,
+                    fg_color="transparent",
+                    border_width=2,
+                    text_color=("gray10", "#DCE4EE"),
+                    text="Insert Image",
+                    command=openfile
+                )
+                middle_button.grid(row=0, column=0, padx=10, pady=10)
+
+                # text = customtkinter.CTkLabel(self.middle_box_frame, text="Selected Image: ",
+                #                        font=customtkinter.CTkFont(size=16, weight="bold"))
+                # text.grid(row=2, column=0, padx=20, pady=5)
+                # text.place(rely=.94)
+
+                # Configure grid weights
                 self.columnconfigure(1, weight=1)
                 self.rowconfigure(2, weight=1)
                 self.rowconfigure(3, weight=1)
@@ -51,12 +106,12 @@ class App(customtkinter.CTk):
         def intro_clicked():
             """Removes all extra components for the home page"""
             try:
-
                 self.title_label.configure(text="Introduction")
                 self.bottom_frame.grid(row=2, column=1, padx=20, sticky="ew")
                 self.content_frame.grid(row=1, column=1, padx=20, sticky="nsew")
                 self.grid_rowconfigure(2, weight=10)
 
+                self.middle_box_frame.destroy()
                 self.entry.destroy()
                 self.main_button_1.destroy()
             except AttributeError:

@@ -1,5 +1,6 @@
 from PIL import Image
 import numpy as np
+import os
 
 
 def get_image_object(path_to_image):
@@ -26,7 +27,7 @@ def convert_to_bytes(binary_representation):
     return bytes_object
 
 
-def change_image(path, binary_representation, new_image_name):
+def change_image(path, binary_representation, new_image_path):
     """Replace last bit of green channel with ciphertext as binary data"""
     with Image.open(path) as im:
         pixels = im.load()
@@ -42,7 +43,7 @@ def change_image(path, binary_representation, new_image_name):
                     current_colour[0], current_colour[1] & 0b11111110 | binary_representation[idx], current_colour[2])
                 pixels[x, y] = current_colour
                 idx += 1
-    im.save(f"static/{new_image_name}.png")
+    im.save(new_image_path)
 
 
 def extract_last_bit(length, new_image_path="static/sus_steg.png"):
