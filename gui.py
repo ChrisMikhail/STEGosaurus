@@ -18,6 +18,7 @@ def change_appearance_mode_event(new_appearance_mode: str):
 class App(customtkinter.CTk):
     def __init__(self):
 
+        self.image_name_text_label = None
         self.middle_box_frame = None
         self.main_button_1 = None
         self.entry = None
@@ -45,11 +46,10 @@ class App(customtkinter.CTk):
             """Updates label text"""
             decoded_message = decode_image()
 
-            self.message_label.configure(text=f"The image contained the message: {decoded_message}")
+            self.message_label.configure(text=f"The image contains the message: {decoded_message}")
 
-        def submit_encode():
-            """Action for the encode submission button"""
-            print("Encoding...")
+        def update_file_label():
+            self.image_name_text_label.configure(text=f"Selected Image: {self.file_name}")
 
         def encode_clicked():
             """Adds extra UI components for the encode section"""
@@ -75,7 +75,7 @@ class App(customtkinter.CTk):
 
                 # New frame for the box in the middle
                 self.middle_box_frame = customtkinter.CTkFrame(self)
-                self.middle_box_frame.grid(row=1, column=1, padx=(15, 15), pady=(5, 15),
+                self.middle_box_frame.grid(row=1, column=1, padx=(20, 20), pady=(5, 15),
                                            sticky="nsew")  # Adjusted row placement
                 self.middle_box_frame.columnconfigure(0, weight=1)
                 self.middle_box_frame.rowconfigure(0, weight=1)
@@ -87,14 +87,14 @@ class App(customtkinter.CTk):
                     border_width=2,
                     text_color=("gray10", "#DCE4EE"),
                     text="Insert Image",
-                    command=openfile
+                    command=lambda: [openfile(), update_file_label()]
                 )
                 middle_button.grid(row=0, column=0, padx=10, pady=10)
 
-                # text = customtkinter.CTkLabel(self.middle_box_frame, text="Selected Image: ",
-                #                        font=customtkinter.CTkFont(size=16, weight="bold"))
-                # text.grid(row=2, column=0, padx=20, pady=5)
-                # text.place(rely=.94)
+                self.image_name_text_label = customtkinter.CTkLabel(self.middle_box_frame, text="Selected Image: ",
+                                                                    font=customtkinter.CTkFont(size=16, weight="bold"))
+                self.image_name_text_label.grid(row=2, column=0, padx=20, pady=5)
+                self.image_name_text_label.place(rely=.94, x=4)
 
                 # Configure grid weights
                 self.columnconfigure(1, weight=1)
