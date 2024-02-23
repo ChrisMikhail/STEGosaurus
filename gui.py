@@ -1,7 +1,9 @@
 import customtkinter
+from tkinter import *
 from tkinter import filedialog
 from PIL import Image
 import os
+from main import decode_image
 
 # Default settings
 customtkinter.set_appearance_mode("System")
@@ -23,22 +25,29 @@ class App(customtkinter.CTk):
         super().__init__()
 
         # configure window
+        self.message_label = None
         self.main_button_1 = None
         self.entry = None
         self.title("STEGosaurus - LSB Image Steganography Tool")
         self.geometry(f"{1100}x{580}")
 
+        # Loads images
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
-        self.first_test_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "steg.png")),
-                                                       size=(402, 301))
-        second_image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
-        self.second_test_image = customtkinter.CTkImage(Image.open(os.path.join(second_image_path, "sus_steg.png")),
-                                                        size=(402, 301))
+        self.first_image_path = os.path.join(image_path, "steg.png")
+        self.second_image_path = os.path.join(image_path, "sus_steg.png")
+        self.first_test_image = customtkinter.CTkImage(Image.open(self.first_image_path), size=(402, 301))
+        self.second_test_image = customtkinter.CTkImage(Image.open(self.second_image_path), size=(402, 301))
 
-        # configure grid layout (4x4)
+        # configure grid layout
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure((2, 3), weight=0)
         self.grid_rowconfigure((0, 1, 2), weight=1)
+
+        def update_message_label():
+            """Updates label text"""
+            decoded_message = decode_image()
+
+            self.message_label.configure(text=f"The image contained the message: {decoded_message}")
 
         def encode_clicked():
             """Adds extra UI components for the encode section"""
@@ -92,7 +101,7 @@ class App(customtkinter.CTk):
 
             # Create the "Decode" button in the middle content frame
             decode_button = customtkinter.CTkButton(self.content_frame, text="Decode",
-                                                    font=customtkinter.CTkFont(size=14))
+                                                    font=customtkinter.CTkFont(size=14), command=update_message_label)
             decode_button.pack(side="bottom", pady=15)
 
             # Create the bottom frame
@@ -101,10 +110,10 @@ class App(customtkinter.CTk):
             self.grid_rowconfigure(2, weight=10)  # Bottom frame
 
             # Create the label in the bottom frame with left alignment
-            message_label_text = "The image contained the message: "
-            message_label = customtkinter.CTkLabel(self.bottom_frame, text=message_label_text,
-                                                   font=customtkinter.CTkFont(size=16, weight="bold"))
-            message_label.pack(side="left", fill="both")
+            self.message_label = customtkinter.CTkLabel(self.bottom_frame,
+                                                        text="",
+                                                        font=customtkinter.CTkFont(size=16, weight="bold"))
+            self.message_label.pack(side="left", fill="both")
 
             try:
                 self.entry.destroy()

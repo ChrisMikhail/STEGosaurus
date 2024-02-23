@@ -9,7 +9,7 @@ def decode_image(path_to_yaml="keys/secrets.yaml", path_to_new="static/sus_steg.
     example_extracted_binary = extract_last_bit(example_length, path_to_new)
     example_decrypted_ciphertext = convert_to_bytes(example_extracted_binary)
     example_message = decrypt(example_nonce, example_decrypted_ciphertext, example_tag, example_key)
-    print(f"The image contained the message {example_message}\n")
+    return example_message
 
 
 def introduce_program():
