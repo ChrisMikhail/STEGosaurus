@@ -35,8 +35,12 @@ class App(customtkinter.CTk):
         self.geometry(f"{1100}x{580}")
 
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
-        self.large_test_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "sus_steg.png")),
-                                                       size=(301, 201))
+        self.first_test_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "steg.png")),
+                                                       size=(402, 301))
+        second_image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
+        self.second_test_image = customtkinter.CTkImage(Image.open(os.path.join(second_image_path, "sus_steg.png")),
+                                                        size=(402, 301))
+
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure((2, 3), weight=0)
@@ -68,6 +72,35 @@ class App(customtkinter.CTk):
             self.content_frame.grid(row=1, column=1, padx=20, sticky="nsew")
             self.grid_rowconfigure(1, weight=150)  # Middle content frame
 
+            # Create the first image label with title "Original"
+            self.home_frame_first_image_label = customtkinter.CTkLabel(self.content_frame, text="",
+                                                                       image=self.first_test_image)
+            self.home_frame_first_image_label.grid(row=2, column=0, padx=20, pady=10)
+            self.home_frame_first_image_label.place(x=15, y=100)
+
+            # Create the title label for the first image
+            original_title_label = customtkinter.CTkLabel(self.content_frame, text="Original Image",
+                                                          font=customtkinter.CTkFont(size=16, weight="bold"))
+            original_title_label.grid(row=2, column=0, padx=20, pady=5)
+            original_title_label.place(x=15, y=70)
+
+            # Create the second image label with title "Secret"
+            self.home_frame_second_image_label = customtkinter.CTkLabel(self.content_frame, text="",
+                                                                        image=self.second_test_image)
+            self.home_frame_second_image_label.grid(row=2, column=0, padx=20, pady=10)
+            self.home_frame_second_image_label.place(x=465, y=100)
+
+            # Create the title label for the second image
+            secret_title_label = customtkinter.CTkLabel(self.content_frame, text="Contains a Hidden Message",
+                                                        font=customtkinter.CTkFont(size=16, weight="bold"))
+            secret_title_label.grid(row=2, column=0, padx=20, pady=5)
+            secret_title_label.place(x=465, y=70)
+
+            # Create the "Decode" button in the middle content frame
+            decode_button = customtkinter.CTkButton(self.content_frame, text="Decode",
+                                                    font=customtkinter.CTkFont(size=14))
+            decode_button.pack(side="bottom", pady=15)
+
             # Create the bottom frame
             self.bottom_frame = customtkinter.CTkFrame(self, fg_color="transparent")
             self.bottom_frame.grid(row=2, column=1, padx=20, sticky="ew")
@@ -79,7 +112,6 @@ class App(customtkinter.CTk):
                                                    font=customtkinter.CTkFont(size=16, weight="bold"))
             message_label.pack(side="left", fill="both")
 
-            # Your existing code for content frame
             try:
                 self.entry.destroy()
                 self.main_button_1.destroy()
