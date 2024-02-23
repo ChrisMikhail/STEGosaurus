@@ -133,7 +133,7 @@ class App(customtkinter.CTk):
         self.title_label.pack(side="top", fill="both", expand=True)
 
         # Loads images
-        image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
+        image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "example")
         self.first_image_path = os.path.join(image_path, "steg.png")
         self.second_image_path = os.path.join(image_path, "sus_steg.png")
         self.first_test_image = customtkinter.CTkImage(Image.open(self.first_image_path), size=(402, 301))

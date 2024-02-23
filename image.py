@@ -46,7 +46,7 @@ def change_image(path, binary_representation, new_image_path):
     im.save(new_image_path)
 
 
-def extract_last_bit(length, new_image_path="static/sus_steg.png"):
+def extract_last_bit(length, new_image_path="example/sus_steg.png"):
     """Extracts last bits of binary data for the green channel of each pixel"""
     binary_data = []
     idx = 0
