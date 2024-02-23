@@ -53,22 +53,40 @@ class App(customtkinter.CTk):
 
         def remove_elements():
             """Removes all extra components for the home page"""
-            self.content_frame = customtkinter.CTkFrame(self, fg_color="transparent")
-            self.content_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+            # Create the top frame
+            self.top_frame = customtkinter.CTkFrame(self, fg_color="transparent")
+            self.top_frame.grid(row=0, column=1, padx=20, sticky="ew")
+            self.grid_rowconfigure(0, weight=10)  # Top frame
 
-            # self.home_frame_large_image_label = customtkinter.CTkLabel(self.content_frame, text="",
-            #                                                            image=self.large_test_image)
-            # self.home_frame_large_image_label.grid(row=2, column=0, padx=20, pady=10)
+            # Create the label in the top frame
+            introduction_label = customtkinter.CTkLabel(self.top_frame, text="Introduction",
+                                                        font=customtkinter.CTkFont(size=20, weight="bold"))
+            introduction_label.pack(side="top", fill="both", expand=True)
 
-            self.Home_label = customtkinter.CTkLabel(self.content_frame, text="Get Started with Steganography",
-                                                     font=customtkinter.CTkFont(size=50, weight="bold"))
-            # self.Home_label.grid(row=0, column=0)
-            self.Home_label.place(relx=.1, rely=0)
+            # Create the middle content frame
+            self.content_frame = customtkinter.CTkFrame(self)
+            self.content_frame.grid(row=1, column=1, padx=20, sticky="nsew")
+            self.grid_rowconfigure(1, weight=150)  # Middle content frame
+
+            # Create the bottom frame
+            self.bottom_frame = customtkinter.CTkFrame(self, fg_color="transparent")
+            self.bottom_frame.grid(row=2, column=1, padx=20, sticky="ew")
+            self.grid_rowconfigure(2, weight=10)  # Bottom frame
+
+            # Create the label in the bottom frame with left alignment
+            message_label_text = "The image contained the message: "
+            message_label = customtkinter.CTkLabel(self.bottom_frame, text=message_label_text,
+                                                   font=customtkinter.CTkFont(size=16, weight="bold"))
+            message_label.pack(side="left", fill="both")
+
+            # Your existing code for content frame
             try:
                 self.entry.destroy()
                 self.main_button_1.destroy()
             except AttributeError:
                 pass
+
+        remove_elements()
 
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
