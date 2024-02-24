@@ -8,6 +8,6 @@ Steganography is the method of encoding data inside an image, while making it ha
 # Start-up and Usage Guide
 1. Clone the repository
 ```
-git clone https://github.com/ChrisMikhail/STEGosaurus.git
+git clone -b app https://github.com/ChrisMikhail/STEGosaurus.git
 ```
 2. Run ```App.exe``` with the ```example``` folder in the same directory and enjoy!
