@@ -21,4 +21,5 @@ def encode_image(path, path_to_new, message_to_encode, yaml_location):
     bin_length = len(binary_rep)
     write_to_yaml(key, nonce, tag, bin_length, yaml_location)
     # Changing the image
-    change_image(path, binary_rep, path_to_new)
+    image_fits = change_image(path, binary_rep, path_to_new)
+    return image_fits

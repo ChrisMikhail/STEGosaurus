@@ -22,18 +22,22 @@ def change_image(path, binary_representation, new_image_path):
     with Image.open(path) as im:
         pixels = im.load()
         w, h = im.size
-        idx = 0
-        for x in range(w):
-            for y in range(h):
-                current_colour = pixels[x, y]
-                if idx >= len(binary_representation):
-                    break
-                    # Replace last bit with binary_representation[idx]
-                current_colour = (
-                    current_colour[0], current_colour[1] & 0b11111110 | binary_representation[idx], current_colour[2])
-                pixels[x, y] = current_colour
-                idx += 1
-    im.save(new_image_path)
+        if len(binary_representation) > w*h:
+            return False
+        else:
+            idx = 0
+            for x in range(w):
+                for y in range(h):
+                    current_colour = pixels[x, y]
+                    if idx >= len(binary_representation):
+                        break
+                        # Replace last bit with binary_representation[idx]
+                    current_colour = (
+                        current_colour[0], current_colour[1] & 0b11111110 | binary_representation[idx], current_colour[2])
+                    pixels[x, y] = current_colour
+                    idx += 1
+        im.save(new_image_path)
+        return True
 
 
 def extract_last_bit(length, new_image_path="example/sus_steg.png"):

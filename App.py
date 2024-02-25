@@ -18,6 +18,7 @@ def change_appearance_mode_event(new_appearance_mode: str):
 class App(customtkinter.CTk):
     def __init__(self):
 
+        self.middle_label = None
         self.middle = None
         self.image_name_text_label = None
         self.middle_box_frame = None
@@ -50,7 +51,11 @@ class App(customtkinter.CTk):
             if downloads_folder is not None and self.file_name is not None:
                 path_to_new_image = os.path.join(downloads_folder, new_file_name)
                 path_to_new_yaml = os.path.join(downloads_folder, yaml_name)
-                encode_image(self.file_path, path_to_new_image, message, path_to_new_yaml)
+                image_fits = encode_image(self.file_path, path_to_new_image, message, path_to_new_yaml)
+                if not image_fits:
+                    self.middle_label.configure(text="Your message is too long!")
+                else:
+                    self.middle_label.configure(text="")
 
         def update_message_label(yaml_path="example/secrets.yaml", new_path="example/sus_steg.png"):
             """Updates label text"""
@@ -110,6 +115,11 @@ class App(customtkinter.CTk):
                                                                     font=customtkinter.CTkFont(size=16, weight="bold"))
                 self.image_name_text_label.grid(row=2, column=0, padx=20, pady=5)
                 self.image_name_text_label.place(rely=.94, x=4)
+
+                self.middle_label = customtkinter.CTkLabel(self.middle_box_frame, text="",
+                                                                    font=customtkinter.CTkFont(size=16, weight="bold"))
+                self.middle_label.grid(row=2, column=0, padx=20, pady=5)
+                self.middle_label.place(rely=.54, relx=.38)
 
                 # Configure grid weights
                 self.columnconfigure(1, weight=1)
