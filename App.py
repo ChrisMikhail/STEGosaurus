@@ -18,6 +18,8 @@ def change_appearance_mode_event(new_appearance_mode: str):
 class App(customtkinter.CTk):
     def __init__(self):
 
+        self.decode_message_label = None
+        self.decode_bottom_frame = None
         self.middle_label = None
         self.middle = None
         self.image_name_text_label = None
@@ -62,6 +64,10 @@ class App(customtkinter.CTk):
             decoded_message = decode_image(yaml_path, new_path)
 
             self.message_label.configure(text=f"The image contains the message: {decoded_message}")
+            try:
+                self.decode_message_label.configure(text=f"The image contains the message: {decoded_message}")
+            except AttributeError:
+                pass
 
         def update_file_label(yaml=False):
             """Updates which file has been selected by user"""
@@ -73,6 +79,8 @@ class App(customtkinter.CTk):
             """Adds extra UI components for the encode section"""
             if self.title_label.cget("text") == "Decode":
                 self.middle.destroy()
+                self.decode_bottom_frame.grid_remove()
+                self.decode_message_label.grid_remove()
             if self.title_label.cget("text") != "Encode":
                 self.title_label.configure(text="Encode")
                 self.bottom_frame.grid_forget()
@@ -178,8 +186,15 @@ class App(customtkinter.CTk):
                     self.yaml_name_text_label.grid(row=2, column=0, padx=20, pady=5)
                     self.yaml_name_text_label.place(rely=.94, x=4)
 
-                    self.bottom_frame.grid(row=2, column=1, padx=20, sticky="ew")
-                    self.message_label.configure(text="The image contains the message: ")
+                    self.decode_bottom_frame = customtkinter.CTkScrollableFrame(self, fg_color="transparent", height=25,
+                                                                         width=200, orientation="horizontal")
+                    self.decode_bottom_frame.grid(row=2, column=1, padx=20, sticky="ew")
+                    self.grid_rowconfigure(2, weight=10)
+                    self.decode_message_label = customtkinter.CTkLabel(self.decode_bottom_frame,
+                                                                text="The image contains the message: ",
+                                                                font=customtkinter.CTkFont(size=16, weight="bold"))
+                    self.decode_message_label.pack(side="left", fill="both")
+                    # self.message_label.configure(text="The image contains the message: ")
                     self.grid_rowconfigure(2, weight=10)
                     self.content_frame.grid_forget()
                     self.middle_box_frame.destroy()
@@ -203,6 +218,8 @@ class App(customtkinter.CTk):
                     self.grid_rowconfigure(1, weight=150)
                     self.middle.grid_remove()
 
+                self.decode_bottom_frame.grid_remove()
+                self.decode_message_label.grid_remove()
                 self.title_label.configure(text="Introduction")
                 self.message_label.configure(text="The image contains the message: ")
                 self.bottom_frame.grid(row=2, column=1, padx=20, sticky="ew")
