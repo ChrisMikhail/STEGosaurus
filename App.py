@@ -57,7 +57,7 @@ class App(customtkinter.CTk):
                 if not image_fits:
                     self.middle_label.configure(text="Your message is too long!")
                 else:
-                    self.middle_label.configure(text="")
+                    self.middle_label.configure(text="Download was successful!")
 
         def update_message_label(yaml_path="example/secrets.yaml", new_path="example/sus_steg.png"):
             """Updates label text"""
@@ -208,18 +208,17 @@ class App(customtkinter.CTk):
             """Removes all extra components for the home page"""
             try:
                 if self.title_label.cget("text") == "Encode":
-                    # self.grid_rowconfigure(2, weight=10)
-                    # self.grid_rowconfigure(1, weight=100)
-
                     self.middle_box_frame.destroy()
                     self.entry.destroy()
                     self.main_button_1.destroy()
+                    self.middle_label.destroy()
+                    self.image_name_text_label.destroy()
                 elif self.title_label.cget("text") == "Decode":
                     self.grid_rowconfigure(1, weight=150)
-                    self.middle.grid_remove()
+                    self.middle.destroy()
+                    self.decode_bottom_frame.grid_remove()
+                    self.decode_message_label.grid_remove()
 
-                self.decode_bottom_frame.grid_remove()
-                self.decode_message_label.grid_remove()
                 self.title_label.configure(text="Introduction")
                 self.message_label.configure(text="The image contains the message: ")
                 self.bottom_frame.grid(row=2, column=1, padx=20, sticky="ew")
