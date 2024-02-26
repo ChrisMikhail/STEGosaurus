@@ -48,7 +48,7 @@ class App(customtkinter.CTk):
             """Encode page submission function"""
             new_file_name = f"sus_{self.file_name}"
             yaml_name = f"secrets_for_{new_file_name[:-4]}.yaml"
-            message = self.entry.get().replace("\n", "")
+            message = self.entry.get().replace("\n", " ")
             downloads_folder = os.path.join(os.path.expanduser("~"), "Downloads")
             if downloads_folder is not None and self.file_name is not None:
                 path_to_new_image = os.path.join(downloads_folder, new_file_name)
