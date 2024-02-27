@@ -1,3 +1,4 @@
+import yaml
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 
@@ -18,7 +19,7 @@ def encrypt(message, key):
 def write_to_yaml(key, nonce, tag, length, file_path="example/secrets.yaml"):
     """Writes key information to a yaml file"""
     with open(file_path, 'w') as f:
-        f.write(f"secrets:\n  key: {key}\n  nonce: {nonce}\n  tag: {tag}\n  length: {length}")
+        yaml.safe_dump(dict(secrets=dict(key=key, nonce=nonce, tag=tag, length=length)), f)
 
 
 def decrypt(nonce, ciphertext, tag, key):
