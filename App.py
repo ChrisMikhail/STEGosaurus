@@ -143,7 +143,7 @@ class App(customtkinter.CTk):
             else:
                 self.middle_label.configure(text="Download was successful!")
 
-    def update_message_label(self, yaml_path="example/secrets.yaml", new_path="example/sus_steg.png"):
+    def update_message_label(self, yaml_path="example/secrets_for_sus_steg.yaml", new_path="example/sus_steg.png"):
         """Updates label text"""
         decoded_message = decode_image(yaml_path, new_path)
 

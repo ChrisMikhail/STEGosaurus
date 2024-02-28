@@ -16,7 +16,7 @@ def encrypt(message, key):
     return nonce, ciphertext, tag
 
 
-def write_to_yaml(key, nonce, tag, length, file_path="example/secrets.yaml"):
+def write_to_yaml(key, nonce, tag, length, file_path="example/secrets_for_sus_steg.yaml"):
     """Writes key information to a yaml file"""
     with open(file_path, 'w') as f:
         yaml.safe_dump(dict(secrets=dict(key=key, nonce=nonce, tag=tag, length=length)), f)
